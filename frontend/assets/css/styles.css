@@ -1703,3 +1703,12 @@ a {
     right: 20px;
   }
 }
+#mobileMenuDrawerBackdrop {
+  display: none;
+  z-index: 99998;
+}
+
+#mobileMenuDrawer {
+  z-index: 99999;
+  transition: transform 0.3s ease;
+}

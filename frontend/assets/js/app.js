@@ -1222,21 +1222,35 @@ window.closeDrawer = function () {
 window.openMobileMenu = function () {
   const backdrop = document.getElementById("mobileMenuDrawerBackdrop");
   const drawer = document.getElementById("mobileMenuDrawer");
-  if (backdrop && drawer) {
-    backdrop.classList.add("active");
-    drawer.style.transform = "translateX(0)";
-    document.body.style.overflow = "hidden";
-  }
+
+  if (!backdrop || !drawer) return;
+
+  backdrop.style.display = "block";
+  backdrop.classList.add("active");
+
+  drawer.style.transform = "translateX(0)";
+  drawer.style.visibility = "visible";
+  drawer.style.opacity = "1";
+  drawer.style.zIndex = "99999";
+
+  document.body.style.overflow = "hidden";
 };
 
 window.closeMobileMenu = function () {
   const backdrop = document.getElementById("mobileMenuDrawerBackdrop");
   const drawer = document.getElementById("mobileMenuDrawer");
-  if (backdrop && drawer) {
-    backdrop.classList.remove("active");
-    drawer.style.transform = "translateX(-100%)";
-    document.body.style.overflow = "";
-  }
+
+  if (!backdrop || !drawer) return;
+
+  backdrop.classList.remove("active");
+
+  drawer.style.transform = "translateX(-100%)";
+
+  setTimeout(() => {
+    backdrop.style.display = "none";
+  }, 300);
+
+  document.body.style.overflow = "";
 };
 
 // Category filters
