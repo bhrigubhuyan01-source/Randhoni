@@ -28,7 +28,12 @@ const registerArea =
       registerCity.value;
 
     registerArea.innerHTML =
-      `<option value="">Choose Area</option>`;
+`
+<option value="">Choose Area</option>
+<option value="other">
+  Other / Type Your Area
+</option>
+`;
 
     if (!selectedCity) return;
 
@@ -44,6 +49,24 @@ const registerArea =
     });
   });
 }
+registerArea.addEventListener("change", () => {
+
+  const customAreaInput =
+    document.getElementById("customArea");
+
+  if (!customAreaInput) return;
+
+  if (registerArea.value === "other") {
+
+    customAreaInput.style.display = "block";
+
+  } else {
+
+    customAreaInput.style.display = "none";
+    customAreaInput.value = "";
+
+  }
+});
 function formatCurrency(amount) {
   return `${CURRENCY_SYMBOL}${amount}`;
 }
@@ -1017,11 +1040,21 @@ window.submitRegister = async function (event) {
 
   const cookName = document.getElementById("regCookName").value.trim();
   const email = document.getElementById("regEmail").value.trim();
-  const phone = document.getElementById("regPhone").value.trim();
-  const location =
-`${registerCity.value}, ${registerArea.value}`;
-  const password = document.getElementById("regPass").value;
+  const phone =
+  document.getElementById("regPhone").value.trim();
 
+const selectedArea =
+  registerArea.value === "other"
+    ? document
+        .getElementById("customArea")
+        .value.trim()
+    : registerArea.value;
+
+const location =
+  `${registerCity.value}, ${selectedArea}`;
+
+const password =
+  document.getElementById("regPass").value;
   try {
     const response = await fetch(`${API_BASE_URL}/register`, {
       method: "POST",
