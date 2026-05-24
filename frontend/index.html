@@ -1,0 +1,712 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c3b2c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="robots" content="index, follow">
+  
+  <!-- SEO Optimization -->
+  <title>Randhoni - Hyperlocal Homemade Food Marketplace in Guwahati</title>
+  <meta name="description" content="Randhoni is a pickup-first homemade food marketplace in Guwahati, helping nearby customers discover affordable meals from local home chefs.">
+  <meta name="keywords" content="Randhoni, randhoni.in, homemade food Guwahati, home food marketplace, Assamese thali pickup, student meals Guwahati, home chefs Guwahati, pickup meals">
+  <link rel="canonical" href="https://randhoni.in/">
+  
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Randhoni - Homemade Food Marketplace for Guwahati">
+  <meta property="og:description" content="Discover nearby home chefs, reserve affordable homemade meals, and pick up directly from neighborhood kitchens.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=1200&auto=format&fit=crop">
+  <meta property="og:image:alt" content="Fresh Indian home-cooked thali meal served for pickup">
+  <meta property="og:url" content="https://randhoni.in/">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Icons & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <!-- Custom Premium Styles -->
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Randhoni",
+      "url": "https://randhoni.in/",
+      "description": "Hyperlocal pickup-first homemade food marketplace for Guwahati.",
+      "areaServed": "Guwahati, Assam, India"
+    }
+  </script>
+  <style>
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#explore-meals">Skip to meal listings</a>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header Sticky Navigation -->
+  <header class="header" id="mainHeader">
+    <div class="container flex-between header-container">
+      
+      <!-- Logo Group -->
+      <a href="#" class="logo-group" aria-label="Randhoni Home">
+        <i class="fa-solid fa-utensils logo-icon"></i>
+        <div>
+          <h1 class="logo-title">Randhoni</h1>
+          <div class="logo-sub">Community Home Kitchens</div>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links" id="mobileNavLinks">
+          <li><a href="#" class="nav-link">Home</a></li>
+          <li><a href="#explore-meals" class="nav-link">Explore Meals</a></li>
+          <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
+          <li><a href="#trust-safety" class="nav-link">Trust & Safety</a></li>
+          <li><a href="#become-cook" class="nav-link">Become a Cook</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <button type="button" id="headerPortalBtn" onclick="openCookDashboard()" class="btn btn-outline btn-header" style="display: none;">
+          <i class="fa-solid fa-circle-user"></i> Chef Dashboard
+        </button>
+        <button type="button" id="headerLoginBtn" onclick="openModal('authModal')" class="btn btn-outline btn-header">
+          Chef Login
+        </button>
+        <button type="button" id="headerJoinBtn" onclick="openModal('authModal')" class="btn btn-accent btn-header">
+          Join Network
+        </button>
+      </div>
+
+      <!-- Hamburger Menu Button (Mobile viewports) -->
+      <button
+  type="button"
+  class="mobile-menu-toggle"
+  onclick="safeMobileTap(() => openMobileMenu())"
+  aria-label="Open Navigation Menu"
+  aria-controls="mobileMenuDrawer"
+  aria-expanded="false"
+>
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Banner Section -->
+    <section class="hero" id="heroBanner">
+      <div class="container">
+        <h2 class="hero-title">Hyperlocal <span>Home-Cooked</span> Food.<br>Pickup First.</h2>
+        <p class="hero-sub">Randhoni connects Guwahati customers with nearby home chefs serving affordable, authentic, homemade meals for direct pickup.</p>
+        
+        <!-- Search Input Box -->
+        <div class="hero-search-wrapper">
+          <div class="hero-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input 
+                type="text"
+                id="heroSearchInput"
+                placeholder="Search delicious thalis, momos, duck curry, or neighborhoods..."
+                class="hero-search-input"
+                aria-label="Search meals or locations"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                >
+
+            <button type="button" id="heroSearchBtn" class="hero-search-btn">
+              <span>Search Food</span> <i class="fa-solid fa-arrow-right-long"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-tag">
+          <i class="fa-solid fa-map-pin"></i> <span>Guwahati, Assam &bull; Self-Pickup Only</span>
+        </div>
+
+        <div class="hero-proof" aria-label="Marketplace highlights">
+          <span><i class="fa-solid fa-indian-rupee-sign"></i> No delivery fee</span>
+          <span><i class="fa-solid fa-shield-halved"></i> Verification-first onboarding</span>
+          <span><i class="fa-brands fa-whatsapp"></i> WhatsApp pickup confirmation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section section-bg-white" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Three Simple Steps</span>
+          <h2 class="section-title">How Randhoni Operates</h2>
+        </div>
+        
+        <div class="steps-container">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge flex-center">1</div>
+            <div class="step-icon-box flex-center">
+              <i class="fa-solid fa-kitchen-set"></i>
+            </div>
+            <h3>Home Cooks List Food</h3>
+            <p>Home chefs create profiles, upload dishes, set prices, and manage daily pickup availability.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge flex-center">2</div>
+            <div class="step-icon-box flex-center">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </div>
+            <h3>Browse & Order</h3>
+            <p>Students, professionals, PG residents, and families discover nearby homemade meals with filters and reviews.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge flex-center">3</div>
+            <div class="step-icon-box flex-center">
+              <i class="fa-solid fa-hand-holding-hand"></i>
+            </div>
+            <h3>Pickup & Enjoy</h3>
+            <p>Reserve your food, confirm on WhatsApp, and pick it up during the cook's available time window.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust and Safety Section -->
+    <section class="section trust-section" id="trust-safety">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Built for Local Trust</span>
+          <h2 class="section-title">Safety Checks Before Scale</h2>
+        </div>
+
+        <div class="trust-grid">
+          <article class="trust-card">
+            <i class="fa-solid fa-id-card-clip"></i>
+            <h3>Chef Verification</h3>
+            <p>Phone verification, profile review, kitchen photo checks, and basic seller details before public listing.</p>
+          </article>
+          <article class="trust-card">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <h3>Food Disclosure</h3>
+            <p>Every listing asks for ingredients, diet type, pickup timing, and allergen notes so customers can decide safely.</p>
+          </article>
+          <article class="trust-card">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <h3>Clear Policies</h3>
+            <p>Randhoni acts as a marketplace intermediary with defined pickup, refund, privacy, and chef conduct policies.</p>
+          </article>
+        </div>
+
+        <div class="legal-note">
+          <strong>Compliance note:</strong> Randhoni is preparing as a pickup-first MVP. FSSAI registration, seller agreements, GST/payment compliance, and refund/privacy policies must be completed before full commercial launch.
+        </div>
+      </div>
+    </section>
+
+    <!-- Food Catalog / Marketplace Section -->
+    <section class="section" id="explore-meals">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tagline">Freshly Prepared Today</span>
+          <h2 class="section-title">Explore Neighborhood Meals</h2>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-tabs-wrapper">
+          <ul class="filter-tabs" id="filterTabs">
+            <li class="filter-tab active" data-filter="all">All Dishes</li>
+            <li class="filter-tab" data-filter="veg"><i class="fa-solid fa-leaf text-veg" style="color:var(--success); margin-right:4px;"></i> Veg</li>
+            <li class="filter-tab" data-filter="non-veg"><i class="fa-solid fa-drumstick-bite" style="color:#c82333; margin-right:4px;"></i> Non-Veg</li>
+            <li class="filter-tab" data-filter="traditional">Traditional Thalis</li>
+            <li class="filter-tab" data-filter="snacks">Snacks & Extras</li>
+          </ul>
+
+          <div class="catalog-actions">
+            <!-- Guwahati neighborhoods filter dropdown -->
+            <select id="locationFilter" class="select-custom" aria-label="Filter by Guwahati Neighborhood">
+              <option value="">All Neighborhoods</option>
+              <option value="Anil Nagar">Anil Nagar</option>
+              <option value="Bhangagarh">Bhangagarh</option>
+              <option value="Rajgarh">Rajgarh</option>
+              <option value="Kalapahar">Kalapahar</option>
+              <option value="Zoo Road">Zoo Road</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Food Listings Grid -->
+        <div class="grid-cols-3" id="listingsCatalog">
+          <!-- Populated dynamically via app.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Become a Cook Call-to-Action Section -->
+    <section class="section cta-cook" id="become-cook">
+      <div class="container">
+        <div class="cta-cook-content">
+          <h2>Do you cook exceptionally well?</h2>
+          <p>Turn your home kitchen into a micro-business. List daily meals, manage availability, receive pickup orders, and build a trusted customer base in your locality.</p>
+          <button type="button" onclick="openModal('authModal')" class="btn btn-accent btn-cta">
+            Register as a Home Cook <i class="fa-solid fa-circle-arrow-right" style="margin-left:8px;"></i>
+          </button>
+          
+          <div>
+            <span class="cta-badge-fssai">
+              <i class="fa-solid fa-shield-halved"></i> Seller agreement, hygiene checklist, and FSSAI registration guidance included
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h2>Randhoni</h2>
+          <p>Guwahati's community-driven home kitchen network helping families source fresh, local, and hygienic home-cooked meals while empowering home makers to turn their culinary talents into viable livelihoods.</p>
+        </div>
+        <div>
+          <h4 class="footer-links-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#explore-meals">Browse Food Listings</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#trust-safety">Trust & Safety</a></li>
+            <li><a href="#become-cook">Register as Cook</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-links-title">Operational Areas</h4>
+          <ul class="footer-links" style="font-size:0.85rem; line-height:1.6;">
+            <li>Anil Nagar, Guwahati</li>
+            <li>Bhangagarh, Guwahati</li>
+            <li>Rajgarh, Guwahati</li>
+            <li>Kalapahar, Guwahati</li>
+            <li>Zoo Road and nearby localities</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-links-title">Policies</h4>
+          <ul class="footer-links">
+            <li>Marketplace intermediary model</li>
+            <li>Pickup-only MVP</li>
+            <li>Refund and complaint review</li>
+            <li>Privacy-first contact handling</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Randhoni.in. Hyperlocal homemade food marketplace for Guwahati.</p>
+        <p><i class="fa-solid fa-shield-halved"></i> HTTPS-ready &bull; FSSAI guidance &bull; Pickup-only MVP</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Cart Icon -->
+  <button type="button" class="cart-floating flex-center" id="floatingCartIcon" onclick="openDrawer()" aria-label="Open Shopping Basket">
+    <i class="fa-solid fa-basket-shopping"></i>
+    <span class="cart-badge flex-center cart-count-badge" style="display: none;">0</span>
+  </button>
+
+  <!-- Shopping Basket Drawer Backdrop -->
+  <div id="cartDrawerBackdrop" class="drawer-backdrop">
+    <!-- Slide Out Drawer -->
+    <div class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <div class="drawer-header">
+        <h3 class="drawer-title" id="drawerTitle">
+          <i class="fa-solid fa-basket-shopping" style="color:var(--primary);"></i> Your Pickup Basket
+        </h3>
+        <button class="drawer-close" onclick="closeDrawer()" aria-label="Close Basket"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="drawer-content" id="cartItemsList">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <div class="drawer-footer">
+        <div class="price-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">&#8377;0</span>
+        </div>
+        <div class="price-row">
+          <span>Eco Containers Charge</span>
+          <span id="cartPkgFee">&#8377;10</span>
+        </div>
+        <div class="price-row" style="color: var(--success); font-weight: 600;">
+          <span>Pickup Charge</span>
+          <span>FREE (&#8377;0)</span>
+        </div>
+        
+        <div class="price-row-total">
+          Total: <span id="cartTotal">&#8377;0</span>
+        </div>
+
+        <button id="cartCheckoutBtn" onclick="openCheckout()" class="btn btn-primary" style="width: 100%; padding: 14px; border-radius: var(--radius-md); font-size:1.05rem;" disabled>
+          Arrange & Reserve Pickup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Meal Details Modal -->
+  <div id="mealDetailModal" class="modal-backdrop">
+    <div class="modal-container modal-large">
+      <button class="modal-close" onclick="closeModal('mealDetailModal')" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-body" style="padding-top: 48px;">
+        <!-- Loaded dynamically by app.js -->
+      </div>
+      <div class="modal-footer">
+        <!-- Loaded dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Authentication Modal (Chef Register / Login) -->
+  <div id="authModal" class="modal-backdrop">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeModal('authModal')" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <!-- Login Panel -->
+      <div id="authPanelLogin" class="modal-body" style="padding-top:40px;">
+        <h3 class="modal-title" style="text-align: center; margin-bottom: 8px;">Chef Login</h3>
+        <p class="text-muted" style="text-align: center; font-size: 0.85rem; margin-bottom: 24px;">Manage your kitchen dishes and daily availability.</p>
+        
+        <form onsubmit="submitLogin(event)">
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email Address</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-envelope"></i>
+              <input type="email" id="loginEmail" class="form-input" placeholder="e.g. rinadas@randhoni.in" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="loginPass">Password</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="loginPass" class="form-input" placeholder="Password" required>
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Demo Chef: <strong>rinadas@randhoni.in</strong> | Password: <strong>password123</strong></p>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 10px;">Login to Kitchen</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 24px; font-size: 0.85rem;">
+          <span class="text-muted">Don't have a kitchen listed?</span> 
+          <a href="#" id="authToggleToRegister" style="color: var(--primary); font-weight: 700; margin-left:4px;">Register as a Cook</a>
+        </div>
+      </div>
+
+      <!-- Registration Panel -->
+      <div id="authPanelRegister" class="modal-body" style="padding-top:40px; display: none;">
+        <h3 class="modal-title" style="text-align: center; margin-bottom: 8px;">Register Your Kitchen</h3>
+        <p class="text-muted" style="text-align: center; font-size: 0.85rem; margin-bottom: 24px;">Turn your passion for cooking into a rewarding neighborhood business.</p>
+        
+        <form onsubmit="submitRegister(event)">
+          <div class="form-group">
+            <label class="form-label" for="regCookName">Full Name / Kitchen Title</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" id="regCookName" class="form-input" placeholder="e.g. Rupa's Traditional Spices" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" class="form-input" placeholder="cook@randhoni.in" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regPhone">WhatsApp Number</label>
+              <input type="tel" id="regPhone" class="form-input" placeholder="+91 9XXXX XXXXX" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regLocation">Neighborhood (Guwahati)</label>
+            <select id="regLocation" class="form-input" style="padding:12px 16px; width:100%;" required>
+              <option value="Anil Nagar">Anil Nagar</option>
+              <option value="Bhangagarh">Bhangagarh</option>
+              <option value="Rajgarh">Rajgarh</option>
+              <option value="Kalapahar">Kalapahar</option>
+              <option value="Zoo Road">Zoo Road</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regPass">Set Password</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="regPass" class="form-input" placeholder="Min. 6 characters" required>
+            </div>
+          </div>
+          <label class="form-check">
+            <input type="checkbox" id="regCompliance" required>
+            <span>I agree to follow hygiene standards, disclose ingredients and allergens accurately, and complete required FSSAI registration steps before commercial selling.</span>
+          </label>
+          <button type="submit" class="btn btn-accent" style="width: 100%; padding: 12px; margin-top: 10px;">Register & Start Selling</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 24px; font-size: 0.85rem;">
+          <span class="text-muted">Already registered with us?</span> 
+          <a href="#" id="authToggleToLogin" style="color: var(--primary); font-weight: 700; margin-left:4px;">Login here</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. Chef Dashboard Modal -->
+  <div id="cookDashboardModal" class="modal-backdrop">
+    <div class="modal-container modal-large">
+      <button class="modal-close" onclick="closeModal('cookDashboardModal')" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-kitchen-set" style="color:var(--accent);"></i> Home Chef Hub</h3>
+      </div>
+      
+      <div class="modal-body" style="padding: 24px;">
+        <div class="dashboard-grid">
+          
+          <!-- Sidebar -->
+          <aside class="dashboard-sidebar">
+            <div style="text-align:center; padding-bottom: 20px; border-bottom:1px solid var(--border); margin-bottom: 20px;">
+              <div class="cook-avatar" style="width:64px; height:64px; margin: 0 auto 12px; font-size: 1.5rem;" id="dashCookAvatar">C</div>
+              <h4 id="dashCookName" style="font-weight:700;">Chef Name</h4>
+              <p id="dashCookLoc" style="font-size:0.8rem; color:var(--text-muted);"><i class="fa-solid fa-location-dot"></i> Neighborhood</p>
+              <p id="dashCookPhone" style="font-size:0.75rem; color:var(--text-muted); opacity: 0.8; margin-top: 2px;">Phone</p>
+            </div>
+            
+            <ul class="dash-menu">
+              <li class="dash-menu-item active" data-tab="dishes" onclick="toggleCookPanel('dishes')">
+                <i class="fa-solid fa-bowl-rice"></i> My Listed Dishes
+              </li>
+              <li class="dash-menu-item" data-tab="add" onclick="toggleCookPanel('add')">
+                <i class="fa-solid fa-circle-plus"></i> List New Dish
+              </li>
+              <li class="dash-menu-item" style="color:var(--error);" onclick="logoutCook()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout Portal
+              </li>
+            </ul>
+          </aside>
+          
+          <!-- Main Panels -->
+          <div class="dashboard-main-content">
+            
+            <!-- Panel 1: Dishes List -->
+            <div class="dash-panel active" id="dashPanel-dishes">
+              <h3 style="font-weight:700; font-size:1.25rem; margin-bottom:16px;">Active Food Listings</h3>
+              <div id="cookDishesList">
+                <!-- Loaded dynamically by app.js -->
+              </div>
+            </div>
+
+            <!-- Panel 2: Add New Dish Form -->
+            <div class="dash-panel" id="dashPanel-add">
+              <h3 style="font-weight:700; font-size:1.25rem; margin-bottom:16px;">List a Delicious New Dish</h3>
+              
+              <form id="addDishForm" onsubmit="addNewDish(event)">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="addDishName">Dish Name *</label>
+                    <input type="text" id="addDishName" class="form-input" placeholder="e.g. Smoked Pork with Bamboo Shoot" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="addDishPrice">Price (&#8377;) *</label>
+                    <input type="number" id="addDishPrice" class="form-input" placeholder="e.g. 120" min="10" required>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="addDishCategory">Category *</label>
+                    <select id="addDishCategory" class="form-input" style="padding:12px 16px;">
+                      <option value="traditional">Traditional Thali</option>
+                      <option value="snacks">Snack & Appetizers</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="addDishVeg">Diet Preference *</label>
+                    <select id="addDishVeg" class="form-input" style="padding:12px 16px;">
+                      <option value="false">Non-Vegetarian</option>
+                      <option value="true">Vegetarian</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="addDishDesc">Description & Thali Items *</label>
+                  <textarea id="addDishDesc" class="form-input" rows="3" placeholder="Provide a brief summary of the meal, thali inclusions, side items, etc." style="resize: none;" required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="addDishIngredients">Key Ingredients *</label>
+                  <input type="text" id="addDishIngredients" class="form-input" placeholder="e.g. Pork belly, bamboo shoot, chillies, ginger paste" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="addDishAllergens">Allergen Notes *</label>
+                  <input type="text" id="addDishAllergens" class="form-input" placeholder="e.g. Contains mustard oil, dairy, fish, gluten, or nuts" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="addDishTime">Pickup Availability Hours *</label>
+                  <input type="text" id="addDishTime" class="form-input" placeholder="e.g. 1:30 PM - 4:30 PM" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Choose Cover Image</label>
+                  <div id="imagePresetsWrapper" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:12px;">
+                    <!-- Rendered dynamically by app.js image presets -->
+                  </div>
+                  <input type="hidden" id="addDishImageUrl">
+                  
+                  <label class="form-label" for="addDishCustomUrl" style="font-size:0.8rem; margin-top:8px;">Or Paste Custom Image URL (Optional)</label>
+                  <input type="url" id="addDishCustomUrl" class="form-input" placeholder="https://images.unsplash.com/photo-..." style="padding:8px 12px; font-size:0.85rem;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; font-size:1.05rem; font-weight:700;">List Dish in Store</button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Checkout Order Details Modal -->
+  <div id="checkoutModal" class="modal-backdrop">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeModal('checkoutModal')" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-calendar-check" style="color:var(--primary);"></i> Confirm Pickup Details</h3>
+      </div>
+      
+      <form onsubmit="processCheckout(event)">
+        <div class="modal-body" style="padding-top:24px;">
+          <div class="form-group">
+            <label class="form-label" for="checkoutName">Your Full Name *</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" id="checkoutName" class="form-input" placeholder="e.g. Joydeep Sen" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="checkoutPhone">Your WhatsApp Mobile *</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-phone"></i>
+              <input type="tel" id="checkoutPhone" class="form-input" placeholder="e.g. +91 91234 56789" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="checkoutDate">Pickup Date *</label>
+              <select id="checkoutDate" class="form-input" style="padding:12px 16px;">
+                <!-- Populated dynamically via app.js -->
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="checkoutTime">Estimated Pickup Time *</label>
+              <input type="text" id="checkoutTime" class="form-input" placeholder="e.g. 1:30 PM" required>
+            </div>
+          </div>
+
+          <div style="background:var(--accent-light); border-radius:var(--radius-sm); padding:12px; font-size:0.8rem; color:hsl(36, 100%, 25%); border:1px solid rgba(255, 145, 0, 0.2);">
+            <i class="fa-solid fa-house-laptop"></i> <strong>Pickup Only Network:</strong> Remember, Randhoni operates as a zero-delivery platform. You will walk or drive to the cook's neighborhood home to grab the fresh package yourself.
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal('checkoutModal')" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-circle-check"></i> Generate Order WhatsApp Receipt
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Order Success Confirmation Modal -->
+  <div id="orderSuccessModal" class="modal-backdrop">
+    <div class="modal-container">
+      <button class="modal-close" onclick="closeModal('orderSuccessModal')" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-body" style="text-align: center; padding-top: 48px;">
+        <div style="width:80px; height:80px; background:var(--success-light); color:var(--success); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:3rem; margin:0 auto 20px;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 class="modal-title" style="margin-bottom: 8px;">Order Packaged & Reserved!</h3>
+        <p class="text-muted" style="font-size:0.9rem; margin-bottom:24px;">Your pickup order request has been compiled successfully.</p>
+        
+        <div id="successOrderDetails" style="text-align: left;">
+          <!-- Populated dynamically via app.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer Backdrop -->
+  <div id="mobileMenuDrawerBackdrop" class="drawer-backdrop">
+    <!-- Slide Out Drawer from Left -->
+    <div class="drawer" id="mobileMenuDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle" style="left: 0; right: auto; transform: translateX(-100%); max-width: 300px;">
+      <div class="drawer-header">
+        <h3 class="drawer-title" id="mobileDrawerTitle">
+          <i class="fa-solid fa-bars" style="color:var(--primary);"></i> Menu
+        </h3>
+        <button class="drawer-close" onclick="closeMobileMenu()" aria-label="Close Menu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="drawer-content">
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 20px; padding: 20px 0;">
+          <li><a href="#" onclick="closeMobileMenu()" style="font-size: 1.2rem; font-weight: 600; display: block; padding: 8px 0; border-bottom: 1px solid var(--border);"><i class="fa-solid fa-house" style="margin-right:12px; color:var(--primary);"></i> Home</a></li>
+          <li><a href="#explore-meals" onclick="closeMobileMenu()" style="font-size: 1.2rem; font-weight: 600; display: block; padding: 8px 0; border-bottom: 1px solid var(--border);"><i class="fa-solid fa-bowl-rice" style="margin-right:12px; color:var(--primary);"></i> Explore Meals</a></li>
+          <li><a href="#how-it-works" onclick="closeMobileMenu()" style="font-size: 1.2rem; font-weight: 600; display: block; padding: 8px 0; border-bottom: 1px solid var(--border);"><i class="fa-solid fa-gears" style="margin-right:12px; color:var(--primary);"></i> How It Works</a></li>
+          <li><a href="#trust-safety" onclick="closeMobileMenu()" style="font-size: 1.2rem; font-weight: 600; display: block; padding: 8px 0; border-bottom: 1px solid var(--border);"><i class="fa-solid fa-shield-halved" style="margin-right:12px; color:var(--primary);"></i> Trust & Safety</a></li>
+          <li><a href="#become-cook" onclick="closeMobileMenu()" style="font-size: 1.2rem; font-weight: 600; display: block; padding: 8px 0; border-bottom: 1px solid var(--border);"><i class="fa-solid fa-kitchen-set" style="margin-right:12px; color:var(--primary);"></i> Become a Cook</a></li>
+        </ul>
+        
+        <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 12px;" id="mobileAuthGroup">
+          <button id="mobilePortalBtn" onclick="openCookDashboard(); closeMobileMenu();" class="btn btn-outline" style="display: none; width:100%; justify-content:center;">
+            <i class="fa-solid fa-circle-user"></i> Chef Dashboard
+          </button>
+          <button id="mobileLoginBtn" onclick="openModal('authModal'); closeMobileMenu();" class="btn btn-outline" style="width:100%; justify-content:center;">
+            Chef Login
+          </button>
+          <button id="mobileJoinBtn" onclick="openModal('authModal'); closeMobileMenu();" class="btn btn-accent" style="width:100%; justify-content:center;">
+            Join Network
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Javascript Logic -->
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
