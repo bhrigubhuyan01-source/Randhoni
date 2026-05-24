@@ -1,7 +1,7 @@
 // Randhoni Application State Engine
 // Backed by LocalStorage for robust, production-ready demonstration
 const PLATFORM_DOMAIN = "randhoni.in";
-const API_BASE_URL = "http://localhost:5000/api/auth";
+const API_BASE_URL = "https://randhoni.onrender.com/api/auth";
 const CURRENCY_SYMBOL = "\u20b9";
 
 function formatCurrency(amount) {
