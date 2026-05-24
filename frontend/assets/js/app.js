@@ -1630,3 +1630,6 @@ window.addEventListener("load", () => {
 });
 
 console.log("✅ Randhoni Mobile Optimization Loaded");
+window.openModal = openModal;
+window.openDrawer = openDrawer;
+window.closeModal = closeModal;
