@@ -1,9 +1,49 @@
 // Randhoni Application State Engine
 // Backed by LocalStorage for robust, production-ready demonstration
+import ASSAM_LOCATIONS from "../data/assamlocations.js";
 const PLATFORM_DOMAIN = "randhoni.in";
 const API_BASE_URL = "https://randhoni.onrender.com/api/auth";
 const CURRENCY_SYMBOL = "\u20b9";
+const registerCity =
+  document.getElementById("registerCity");
 
+const registerArea =
+  document.getElementById("registerArea");
+  if (registerCity && registerArea) {
+
+  Object.keys(ASSAM_LOCATIONS).forEach((city) => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = city;
+    option.textContent = city;
+
+    registerCity.appendChild(option);
+  });
+
+  registerCity.addEventListener("change", () => {
+
+    const selectedCity =
+      registerCity.value;
+
+    registerArea.innerHTML =
+      `<option value="">Choose Area</option>`;
+
+    if (!selectedCity) return;
+
+    ASSAM_LOCATIONS[selectedCity].forEach((area) => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = area;
+      option.textContent = area;
+
+      registerArea.appendChild(option);
+    });
+  });
+}
 function formatCurrency(amount) {
   return `${CURRENCY_SYMBOL}${amount}`;
 }
@@ -978,7 +1018,8 @@ window.submitRegister = async function (event) {
   const cookName = document.getElementById("regCookName").value.trim();
   const email = document.getElementById("regEmail").value.trim();
   const phone = document.getElementById("regPhone").value.trim();
-  const location = document.getElementById("regLocation").value;
+  const location =
+`${registerCity.value}, ${registerArea.value}`;
   const password = document.getElementById("regPass").value;
 
   try {
@@ -987,12 +1028,14 @@ window.submitRegister = async function (event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: cookName,
-        email,
-        password,
-        role: "chef",
-      }),
+        body: JSON.stringify({
+  name: cookName,
+  email,
+  password,
+  phone,
+  location,
+  role: "chef",
+}),
     });
 
     const data = await response.json();

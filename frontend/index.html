@@ -443,16 +443,39 @@
               <input type="tel" id="regPhone" class="form-input" placeholder="+91 9XXXX XXXXX" required>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="regLocation">Neighborhood (Guwahati)</label>
-            <select id="regLocation" class="form-input" style="padding:12px 16px; width:100%;" required>
-              <option value="Anil Nagar">Anil Nagar</option>
-              <option value="Bhangagarh">Bhangagarh</option>
-              <option value="Rajgarh">Rajgarh</option>
-              <option value="Kalapahar">Kalapahar</option>
-              <option value="Zoo Road">Zoo Road</option>
-            </select>
-          </div>
+          <div class="form-row">
+
+  <div class="form-group">
+    <label class="form-label" for="registerCity">
+      Select City
+    </label>
+
+    <select
+      id="registerCity"
+      class="form-input"
+      style="padding:12px 16px; width:100%;"
+      required
+    >
+      <option value="">Choose City</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="registerArea">
+      Select Area
+    </label>
+
+    <select
+      id="registerArea"
+      class="form-input"
+      style="padding:12px 16px; width:100%;"
+      required
+    >
+      <option value="">Choose Area</option>
+    </select>
+  </div>
+
+</div>
           <div class="form-group">
             <label class="form-label" for="regPass">Set Password</label>
             <div class="input-icon-wrapper">
