@@ -258,16 +258,72 @@ const state = {
   searchQuery: "",
   activeCookTab: "dishes",
 };
+async function fetchMeals() {
+
+  try {
+
+    const response = await fetch(
+      "https://randhoni.onrender.com/api/meals"
+    );
+
+    const data = await response.json();
+
+    state.meals = data.map((meal) => ({
+      id: meal.id,
+
+      name: meal.title,
+
+      cook: meal.chef_name,
+
+      cookPhone: meal.chef_phone,
+
+      cookLocation: meal.chef_location,
+
+      price: meal.price,
+
+      category: meal.category,
+
+      isVeg: meal.is_veg,
+
+      itemDescription:
+        meal.description,
+
+      ingredients:
+        meal.ingredients,
+
+      allergenNotes:
+        meal.allergen_notes,
+
+      pickupTime:
+        meal.pickup_time,
+
+      rating:
+        meal.rating || 5,
+
+      image:
+        meal.image_url,
+
+      reviews: [],
+    }));
+
+    renderCatalog();
+
+    if (state.currentUser) {
+      renderCookDishes();
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Failed to fetch meals",
+      error
+    );
+  }
+}
 
 // Initialize State from LocalStorage or seed defaults
 function initStorage() {
-  const storedMeals = localStorage.getItem("randhoni_meals");
-  if (!storedMeals) {
-    localStorage.setItem("randhoni_meals", JSON.stringify(DEFAULT_MEALS));
-    state.meals = [...DEFAULT_MEALS];
-  } else {
-    state.meals = JSON.parse(storedMeals);
-  }
+  
 
   const storedCart = localStorage.getItem("randhoni_cart");
   if (storedCart) {
@@ -281,9 +337,7 @@ function initStorage() {
 }
 
 // Save specific parts of state
-function saveMeals() {
-  localStorage.setItem("randhoni_meals", JSON.stringify(state.meals));
-}
+
 
 function saveCart() {
   localStorage.setItem("randhoni_cart", JSON.stringify(state.cart));
@@ -880,49 +934,108 @@ window.toggleCookPanel = function (tabName) {
   }
 };
 
-function renderCookDishes() {
-  const container = document.getElementById("cookDishesList");
+async function renderCookDishes() {
+
+  const container =
+    document.getElementById("cookDishesList");
+
   if (!container) return;
 
-  container.innerHTML = "";
+  container.innerHTML = `
+    <p style="padding:20px;">
+      Loading dishes...
+    </p>
+  `;
 
-  const cookMeals = state.meals.filter(
-    (m) => m.cook === state.currentUser.cookName,
+  try {
+
+    const response = await fetch(
+      "https://randhoni.onrender.com/api/meals"
+    );
+
+    const meals = await response.json();
+
+    const cookMeals = meals.filter((meal) => {
+
+  return (
+    meal.chef_name &&
+    state.currentUser &&
+    meal.chef_name.toLowerCase().trim() ===
+    state.currentUser.cookName.toLowerCase().trim()
   );
 
-  if (cookMeals.length === 0) {
+});
+
+    if (cookMeals.length === 0) {
+
+      container.innerHTML = `
+        <div style="
+          text-align:center;
+          padding:40px;
+        ">
+          No dishes listed yet.
+        </div>
+      `;
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    cookMeals.forEach((meal) => {
+
+      const div =
+        document.createElement("div");
+
+      div.style.cssText = `
+        border:1px solid #ddd;
+        border-radius:12px;
+        padding:16px;
+        margin-bottom:16px;
+      `;
+
+      div.innerHTML = `
+        <img
+          src="${meal.image_url}"
+          style="
+            width:100%;
+            height:180px;
+            object-fit:cover;
+            border-radius:10px;
+          "
+        />
+
+        <h3 style="margin-top:12px;">
+          ${meal.title}
+        </h3>
+
+        <p>
+          ₹${meal.price}
+        </p>
+
+        <p>
+          ${meal.category}
+        </p>
+
+        <p>
+          ${meal.pickup_time}
+        </p>
+      `;
+
+      container.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
     container.innerHTML = `
-      <div style="text-align:center; padding: 40px 0; color:var(--text-muted);">
-        <i class="fa-solid fa-bowl-food" style="font-size:3rem; opacity:0.3; margin-bottom:12px; display:block;"></i>
-        <p style="font-size:0.9rem;">You haven't listed any home-cooked dishes yet.</p>
-        <button onclick="toggleCookPanel('add')" class="btn btn-outline" style="margin-top:12px; padding:6px 16px; font-size:0.85rem;">List Your First Dish</button>
-      </div>
+      <p style="padding:20px;color:red;">
+        Failed to load dishes
+      </p>
     `;
-    return;
   }
-
-  cookMeals.forEach((meal) => {
-    const div = document.createElement("div");
-    div.style.cssText =
-      "display:grid; grid-template-columns: 60px 1fr auto; gap:16px; padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); align-items:center; background:var(--bg-card); margin-bottom:12px;";
-
-    div.innerHTML = `
-      <img src="${meal.image}" style="width:60px; height:60px; border-radius:4px; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1601050690597-df056fb4ce78?q=80&w=800&auto=format&fit=crop'">
-      <div>
-        <h4 style="font-weight:600; font-size:0.95rem;">${meal.name}</h4>
-        <p style="font-size:0.8rem; color:var(--text-muted)">${formatCurrency(meal.price)} &bull; Pickup: ${meal.pickupTime}</p>
-        <span style="font-size: 0.75rem; background: ${meal.isVeg ? "var(--success-light)" : "#fdf2f2"}; color: ${meal.isVeg ? "var(--success)" : "#c82333"}; padding: 2px 8px; border-radius: 10px; font-weight:600;">
-          ${meal.isVeg ? "Veg" : "Non-Veg"}
-        </span>
-      </div>
-      <div>
-        <button onclick="deleteCookDish('${meal.id}')" class="btn btn-outline" style="padding:6px; color:var(--error); border-color:var(--error); width:36px; height:36px;" title="Delete listing">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
 }
 
 window.deleteCookDish = function (id) {
@@ -1030,6 +1143,11 @@ window.addNewDish = async function (event) {
       "Please fill all required fields",
       "warning"
     );
+    await fetchMeals();
+
+renderCookDishes();
+
+renderCatalog();
     return;
   }
 
@@ -1435,6 +1553,7 @@ function setupAuthPanelToggles() {
 // Bootstrapping the application
 window.addEventListener("DOMContentLoaded", () => {
   initStorage();
+  fetchMeals();
   updateAuthUI();
   updateCartBadge();
   renderCart();
