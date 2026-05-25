@@ -7,11 +7,20 @@ window.openMobileMenu = function () {
       "mobileMenuDrawerBackdrop"
     );
 
-  if (!backdrop) return;
+  const drawer =
+    document.getElementById(
+      "mobileMenuDrawer"
+    );
+
+  if (!backdrop || !drawer) return;
 
   backdrop.classList.add("active");
 
-  document.body.style.overflow = "hidden";
+  drawer.style.transform =
+    "translateX(0)";
+
+  document.body.style.overflow =
+    "hidden";
 };
 
 window.closeMobileMenu = function () {
@@ -21,13 +30,21 @@ window.closeMobileMenu = function () {
       "mobileMenuDrawerBackdrop"
     );
 
-  if (!backdrop) return;
+  const drawer =
+    document.getElementById(
+      "mobileMenuDrawer"
+    );
+
+  if (!backdrop || !drawer) return;
 
   backdrop.classList.remove("active");
 
-  document.body.style.overflow = "";
-};
+  drawer.style.transform =
+    "translateX(-100%)";
 
+  document.body.style.overflow =
+    "";
+};
 const ASSAM_LOCATIONS = {
 
   Guwahati: [
@@ -1291,8 +1308,13 @@ window.submitRegister = async function (event) {
 
   const role = "chef";
 
-  const customArea =
-  document.getElementById("customArea").value.trim();
+  const customAreaInput =
+  document.getElementById("customArea");
+
+const customArea =
+  customAreaInput
+    ? customAreaInput.value.trim()
+    : "";
 
 const finalArea =
   area === "other"
