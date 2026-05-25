@@ -10,6 +10,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+const mealsRoutes =
+require("./routes/meals");
+
+app.use("/api/meals", mealsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Randhoni Backend Running");
