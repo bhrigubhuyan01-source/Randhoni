@@ -1191,36 +1191,26 @@ window.addNewDish = async function (event) {
 
         body: JSON.stringify({
 
-          chef_name:
-            state.currentUser.cookName,
+  chef_id: state.currentUser.id,
 
-          chef_phone:
-            state.currentUser.cookPhone,
+  title: name,
 
-          chef_location:
-            state.currentUser.cookLocation,
+  description: desc,
 
-          title: name,
+  ingredients: ingredients,
 
-          description: desc,
+  allergen_notes: allergenNotes,
 
-          ingredients: ingredients,
+  price: price,
 
-          allergen_notes:
-            allergenNotes,
+  category: category,
 
-          price: price,
+  is_veg: isVeg,
 
-          category: category,
+  pickup_time: pickupTime,
 
-          is_veg: isVeg,
-
-          pickup_time:
-            pickupTime,
-
-          image_url:
-            uploadedImageUrl,
-        }),
+  image_url: uploadedImageUrl,
+}),
       }
     );
 
@@ -1298,13 +1288,13 @@ window.submitLogin = async function (event) {
 
     // Save logged user
     const loggedUser = {
-      cookName: data.user.name,
-      email: data.user.email,
-      cookLocation: "Guwahati",
-      cookPhone: "Not Added Yet",
-      role: data.user.role,
-    };
-
+  id: data.user.id,
+  cookName: data.user.name,
+  email: data.user.email,
+  cookLocation: data.user.location || "Guwahati",
+  cookPhone: data.user.phone || "Not Added Yet",
+  role: data.user.role,
+};
     saveUser(loggedUser);
 
     closeModal("authModal");

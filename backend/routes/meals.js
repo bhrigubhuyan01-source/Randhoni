@@ -11,9 +11,6 @@ router.post("/", async (req, res) => {
   try {
     const {
       chef_id,
-      chef_name,
-      chef_location,
-      chef_phone,
       title,
       description,
       ingredients,
@@ -27,7 +24,7 @@ router.post("/", async (req, res) => {
 
     // Basic validation
     if (
-      !chef_name ||
+      !chef_id ||
       !title ||
       !price
     ) {
@@ -35,15 +32,36 @@ router.post("/", async (req, res) => {
         error: "Required fields missing",
       });
     }
+const { data: chefData, error: chefError } = await supabase
+  .from("users")
+  .select("name, location, phone")
+  .eq("id", chef_id)
+  .single();
 
+if (chefError || !chefData) {
+  return res.status(404).json({
+    error: "Chef not found",
+  });
+}
+const { data: userData, error: userError } = await supabase
+  .from("users")
+  .select("role")
+  .eq("id", chef_id)
+  .single();
+
+if (userError || userData.role !== "chef") {
+  return res.status(403).json({
+    error: "Only chefs can add meals",
+  });
+}
     const { data, error } = await supabase
       .from("meals")
       .insert([
         {
           chef_id,
-          chef_name,
-          chef_location,
-          chef_phone,
+          chef_name: chefData.name,
+chef_location: chefData.location,
+chef_phone: chefData.phone,
           title,
           description,
           ingredients,
