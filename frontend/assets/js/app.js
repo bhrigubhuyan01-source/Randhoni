@@ -50,7 +50,8 @@ const registerArea =
     });
   });
 }
-registerArea.addEventListener("change", () => {
+if (registerArea) {
+  registerArea.addEventListener("change", () => {
 
   const customAreaInput =
     document.getElementById("customArea");
@@ -68,163 +69,13 @@ registerArea.addEventListener("change", () => {
 
   }
 });
+}
+
 function formatCurrency(amount) {
   return `${CURRENCY_SYMBOL}${amount}`;
 }
 
-// Default Seed Data (Guwahati Local Kitchen Network)
-const DEFAULT_MEALS = [
-  {
-    id: "meal-1",
-    name: "Bengali Style Fish Thali",
-    cook: "Rina Das",
-    cookPhone: "+919876543210",
-    cookLocation: "Bhangagarh, Guwahati",
-    price: 99,
-    category: "traditional",
-    isVeg: false,
-    itemDescription:
-      "Traditional Bengali meal featuring hot steamed rice, thick chana dal, light fish curry (Rohu), flavorful aloo posto (potatoes in poppy seed paste), and fresh green salad. Pure home style cooking.",
-    ingredients:
-      "Rohu Fish, Mustard oil, Poppy seeds, Basmati Rice, Spices, Potatoes, Lemon",
-    allergenNotes: "Contains fish and mustard oil.",
-    pickupTime: "1:00 PM - 3:00 PM",
-    rating: 4.8,
-    image:
-      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=800&auto=format&fit=crop",
-    isBestseller: true,
-    reviews: [
-      {
-        author: "Deepjyoti B.",
-        rating: 5,
-        text: "The fish curry was extremely fresh and tasted exactly like home!",
-      },
-      {
-        author: "Nayana S.",
-        rating: 4,
-        text: "Excellent aloo posto. Highly recommended for lunch!",
-      },
-    ],
-  },
-  {
-    id: "meal-2",
-    name: "Assamese Deluxe Thali",
-    cook: "Anjali Bezbaruah",
-    cookPhone: "+919864012345",
-    cookLocation: "Anil Nagar, Guwahati",
-    price: 85,
-    category: "traditional",
-    isVeg: false,
-    itemDescription:
-      "Authentic Assamese food experience including soft Joha rice, Mati Mahor Dali (black lentil dal), Khaar (alkaline papaya dish), Aloo Pitika (mashed potato with mustard oil and coriander), seasonal vegetable fry, and traditional small fish/chicken curry.",
-    ingredients:
-      "Joha Rice, Black Lentil, Raw Papaya (Khar), Potatoes, Chicken, Coriander, Mustard Oil",
-    allergenNotes: "Contains mustard oil. Non-veg curry may contain fish or chicken.",
-    pickupTime: "12:30 PM - 4:00 PM",
-    rating: 4.9,
-    image:
-      "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
-    isBestseller: true,
-    reviews: [
-      {
-        author: "Pranab K.",
-        rating: 5,
-        text: "Best Aloo Pitika and Khar in Guwahati. Very hygiene packaging.",
-      },
-      {
-        author: "Rita D.",
-        rating: 5,
-        text: "Tastes heavenly. Anjali has amazing culinary skills!",
-      },
-    ],
-  },
-  {
-    id: "meal-3",
-    name: "Steamed Chicken Momos (12 Pcs)",
-    cook: "Puja's Himalayan Kitchen",
-    cookPhone: "+918876123456",
-    cookLocation: "Rajgarh, Guwahati",
-    price: 70,
-    category: "snacks",
-    isVeg: false,
-    itemDescription:
-      "Juicy, handmade steamed chicken momos packed with minced chicken, spring onions, and ginger. Served with a special hot, spicy fire-roasted tomato-sesame chutney.",
-    ingredients:
-      "Minced Chicken, Flour, Ginger, Garlic, Spring Onions, Tomatoes, Sesame seeds",
-    allergenNotes: "Contains gluten and sesame.",
-    pickupTime: "5:30 PM - 9:00 PM",
-    rating: 4.7,
-    image:
-      "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=800&auto=format&fit=crop",
-    isBestseller: false,
-    reviews: [
-      {
-        author: "Arnab D.",
-        rating: 4,
-        text: "Very juicy momos. The spicy chutney is to die for!",
-      },
-      {
-        author: "Manas P.",
-        rating: 5,
-        text: "Unbelievable quality for ₹70. Will order every week.",
-      },
-    ],
-  },
-  {
-    id: "meal-4",
-    name: "Pure Veg North Indian Thali",
-    cook: "Sharda Sharma",
-    cookPhone: "+919435012345",
-    cookLocation: "Kalapahar, Guwahati",
-    price: 80,
-    category: "traditional",
-    isVeg: true,
-    itemDescription:
-      "Healthy, wholesome vegetarian lunch featuring aromatic Jeera rice, yellow Dal Tadka, paneer butter masala, 3 soft whole wheat chapatis, papad, and fresh pickle.",
-    ingredients:
-      "Wheat flour, Paneer, Jeera, Basmati Rice, Butter, Tomatoes, Spices",
-    allergenNotes: "Contains dairy and gluten.",
-    pickupTime: "1:00 PM - 3:30 PM",
-    rating: 4.6,
-    image:
-      "https://images.unsplash.com/photo-1585938338392-50a59970d2ee?q=80&w=800&auto=format&fit=crop",
-    isBestseller: false,
-    reviews: [
-      {
-        author: "Vikram R.",
-        rating: 4,
-        text: "Very soft rotis and tasty paneer. Perfect office lunch option.",
-      },
-    ],
-  },
-  {
-    id: "meal-5",
-    name: "Traditional Duck Curry (Aahor Mangxo)",
-    cook: "Bhaskar's Heritage Kitchen",
-    cookPhone: "+917002012345",
-    cookLocation: "Zoo Road, Guwahati",
-    price: 150,
-    category: "traditional",
-    isVeg: false,
-    itemDescription:
-      "Assamese style local duck curry cooked with ash gourd (Kumura), black pepper, ginger, garlic, and locally sourced whole spices. A popular Assamese delicacy full of robust flavors.",
-    ingredients:
-      "Local Duck, Ash Gourd (Kumura), Black Pepper, Ginger, Garlic, Mustard Oil",
-    allergenNotes: "Contains duck and mustard oil.",
-    pickupTime: "1:00 PM - 5:00 PM",
-    rating: 4.9,
-    image:
-      "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800&auto=format&fit=crop",
-    isBestseller: true,
-    reviews: [
-      {
-        author: "Jintu D.",
-        rating: 5,
-        text: "Excellent texture and spices. Authentically prepared duck curry.",
-      },
-    ],
-  },
-];
+
 
 // Presets for Cook Add Product images
 const IMAGE_PRESETS = [
@@ -637,8 +488,7 @@ window.submitReview = function (mealId) {
   state.meals[mealIndex].rating = parseFloat(
     (total / state.meals[mealIndex].reviews.length).toFixed(1),
   );
-
-  saveMeals();
+  
   showToast("Thank you for your rating! Review added successfully.", "success");
 
   // Refresh modal content
@@ -1046,7 +896,7 @@ window.deleteCookDish = function (id) {
     )
   ) {
     state.meals = state.meals.filter((m) => m.id !== id);
-    saveMeals();
+    
     renderCookDishes();
     renderCatalog();
     showToast("Dish listing successfully deleted", "info");
@@ -1086,6 +936,9 @@ window.populateImagePresets = function () {
   });
 };
 
+
+
+  
 window.addNewDish = async function (event) {
 
   event.preventDefault();
@@ -1125,7 +978,6 @@ window.addNewDish = async function (event) {
   const imageFile =
     document.getElementById("dishImageFile").files[0];
 
-  // Validation
   if (
     !name ||
     isNaN(price) ||
@@ -1145,7 +997,6 @@ window.addNewDish = async function (event) {
 
   try {
 
-    // Upload image to Supabase Storage
     if (imageFile) {
 
       const fileName =
@@ -1157,8 +1008,6 @@ window.addNewDish = async function (event) {
           .upload(fileName, imageFile);
 
       if (uploadError) {
-
-        console.error(uploadError);
 
         showToast(
           "Image upload failed",
@@ -1178,39 +1027,54 @@ window.addNewDish = async function (event) {
         publicUrlData.publicUrl;
     }
 
-    // Send meal data to backend
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+
+      showToast(
+        "Please login again",
+        "error"
+      );
+
+      return;
+    }
+
     const response = await fetch(
       "https://randhoni.onrender.com/api/meals",
       {
         method: "POST",
 
         headers: {
-          "Content-Type":
-            "application/json",
+          "Content-Type": "application/json",
+          Authorization:
+            `Bearer ${session.access_token}`,
         },
 
         body: JSON.stringify({
 
-  chef_id: state.currentUser.id,
+          chef_id: state.currentUser.id,
 
-  title: name,
+          title: name,
 
-  description: desc,
+          description: desc,
 
-  ingredients: ingredients,
+          ingredients: ingredients,
 
-  allergen_notes: allergenNotes,
+          allergen_notes: allergenNotes,
 
-  price: price,
+          price: price,
 
-  category: category,
+          category: category,
 
-  is_veg: isVeg,
+          is_veg: isVeg,
 
-  pickup_time: pickupTime,
+          pickup_time: pickupTime,
 
-  image_url: uploadedImageUrl,
-}),
+          image_url: uploadedImageUrl,
+
+        }),
       }
     );
 
@@ -1228,14 +1092,12 @@ window.addNewDish = async function (event) {
       return;
     }
 
-    // Refresh live meals
     await fetchMeals();
 
     renderCookDishes();
 
     renderCatalog();
 
-    // Reset form
     document
       .getElementById("addDishForm")
       .reset();
@@ -1256,45 +1118,69 @@ window.addNewDish = async function (event) {
   }
 };
 
-  
 
 window.submitLogin = async function (event) {
+
   event.preventDefault();
 
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPass").value;
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPass").value;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+
         email,
         password,
-      }),
-    });
 
-    const data = await response.json();
+      });
 
-    if (!response.ok) {
-      showToast(data.error || "Login failed", "error");
+    if (error) {
+
+      showToast(error.message, "error");
       return;
     }
 
-    // Save JWT token
-    localStorage.setItem("randhoni_token", data.token);
+    // Fetch profile from users table
+    const { data: profile, error: profileError } =
+      await supabase
+        .from("users")
+        .select("*")
+        .eq("id", data.user.id)
+        .single();
 
-    // Save logged user
+    if (profileError) {
+
+      showToast(
+        "Profile loading failed",
+        "error"
+      );
+
+      return;
+    }
+
     const loggedUser = {
-  id: data.user.id,
-  cookName: data.user.name,
-  email: data.user.email,
-  cookLocation: data.user.location || "Guwahati",
-  cookPhone: data.user.phone || "Not Added Yet",
-  role: data.user.role,
-};
+
+      id: profile.id,
+
+      cookName: profile.name,
+
+      email: profile.email,
+
+      cookLocation:
+        profile.location || "Guwahati",
+
+      cookPhone:
+        profile.phone || "Not Added",
+
+      role: profile.role,
+
+    };
+
     saveUser(loggedUser);
 
     closeModal("authModal");
@@ -1307,20 +1193,112 @@ window.submitLogin = async function (event) {
     openCookDashboard();
 
   } catch (error) {
-    showToast("Server connection failed", "error");
+
     console.error(error);
+
+    showToast(
+      "Login failed",
+      "error"
+    );
   }
 };
+window.submitRegister = async function (event) {
 
+  event.preventDefault();
+
+  const name =
+    document.getElementById("registerName").value.trim();
+
+  const email =
+    document.getElementById("registerEmail").value.trim();
+
+  const password =
+    document.getElementById("registerPass").value;
+
+  const phone =
+    document.getElementById("registerPhone").value.trim();
+
+  const city =
+    document.getElementById("registerCity").value;
+
+  const area =
+    document.getElementById("registerArea").value;
+
+  const role = "chef";
+
+  const location = `${area}, ${city}`;
+
+  try {
+
+    // Create Supabase Auth user
+    const { data, error } =
+      await supabase.auth.signUp({
+
+        email,
+        password,
+
+      });
+
+    if (error) {
+
+      showToast(error.message, "error");
+      return;
+    }
+
+    // Insert profile into users table
+    const { error: profileError } =
+      await supabase
+        .from("users")
+        .insert([{
+
+          id: data.user.id,
+
+          name,
+          email,
+          role,
+          phone,
+          location,
+
+        }]);
+
+    if (profileError) {
+
+      showToast(
+        profileError.message,
+        "error"
+      );
+
+      return;
+    }
+
+    showToast(
+      "Registration successful! Please login.",
+      "success"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "Registration failed",
+      "error"
+    );
+  }
+};
   
-window.logoutCook = function () {
-  localStorage.removeItem("randhoni_token");
+window.logoutCook = async function () {
+
+  await supabase.auth.signOut();
 
   saveUser(null);
 
   closeModal("cookDashboardModal");
 
-  showToast("Logged out successfully.", "info");
+  showToast(
+    "Logged out successfully.",
+    "info"
+  );
 };
 
 window.openCookDashboard = function () {
@@ -1383,235 +1361,7 @@ function updateAuthUI() {
   }
 }
 
-// Global modal triggers
-window.openModal = function (modalId) {
-  const backdrop = document.getElementById(modalId);
-  if (backdrop) {
-    backdrop.classList.add("active");
-    document.body.style.overflow = "hidden"; // Prevent body scrolling
-  }
-};
 
-window.closeModal = function (modalId) {
-  const backdrop = document.getElementById(modalId);
-  if (backdrop) {
-    backdrop.classList.remove("active");
-    document.body.style.overflow = ""; // Re-enable body scrolling
-  }
-};
-
-// Global drawer triggers
-window.openDrawer = function () {
-  const backdrop = document.getElementById("cartDrawerBackdrop");
-  if (backdrop) {
-    backdrop.classList.add("active");
-    document.body.style.overflow = "hidden";
-  }
-};
-
-window.closeDrawer = function () {
-  const backdrop = document.getElementById("cartDrawerBackdrop");
-  if (backdrop) {
-    backdrop.classList.remove("active");
-    document.body.style.overflow = "";
-  }
-};
-
-// Global Mobile Menu triggers
-window.openMobileMenu = function () {
-  const backdrop = document.getElementById("mobileMenuDrawerBackdrop");
-  const drawer = document.getElementById("mobileMenuDrawer");
-
-  if (!backdrop || !drawer) return;
-
-  backdrop.style.display = "block";
-  backdrop.classList.add("active");
-
-  drawer.style.transform = "translateX(0)";
-  drawer.style.visibility = "visible";
-  drawer.style.opacity = "1";
-  drawer.style.zIndex = "99999";
-
-  document.body.style.overflow = "hidden";
-};
-
-window.closeMobileMenu = function () {
-  const backdrop = document.getElementById("mobileMenuDrawerBackdrop");
-  const drawer = document.getElementById("mobileMenuDrawer");
-
-  if (!backdrop || !drawer) return;
-
-  backdrop.classList.remove("active");
-
-  drawer.style.transform = "translateX(-100%)";
-
-  setTimeout(() => {
-    backdrop.style.display = "none";
-  }, 300);
-
-  document.body.style.overflow = "";
-};
-
-// Category filters
-function setupFilters() {
-  const tabs = document.querySelectorAll(".filter-tab");
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      state.activeFilter = tab.getAttribute("data-filter");
-      renderCatalog();
-    });
-  });
-
-  const locationFilter = document.getElementById("locationFilter");
-  if (locationFilter) {
-    locationFilter.addEventListener("change", (e) => {
-      state.searchQuery = e.target.value;
-      renderCatalog();
-    });
-  }
-
-  // Bind main Hero Search Bar
-  const searchBtn = document.getElementById("heroSearchBtn");
-  const searchInput = document.getElementById("heroSearchInput");
-
-  if (searchBtn && searchInput) {
-    const handleSearch = () => {
-      const q = searchInput.value.trim();
-      state.searchQuery = q;
-      renderCatalog();
-
-      // Smooth scroll to catalog
-      const catalogSection = document.getElementById("explore-meals");
-      if (catalogSection) {
-        catalogSection.scrollIntoView({ behavior: "smooth" });
-      }
-
-      if (q) {
-        showToast(`Filtered listings by: "${q}"`, "info");
-      }
-    };
-
-    searchBtn.addEventListener("click", handleSearch);
-    searchInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") handleSearch();
-    });
-  }
-}
-
-// Bind auth sub-panel switching inside modal
-function setupAuthPanelToggles() {
-  const toggleToRegister = document.getElementById("authToggleToRegister");
-  const toggleToLogin = document.getElementById("authToggleToLogin");
-
-  const loginPanel = document.getElementById("authPanelLogin");
-  const regPanel = document.getElementById("authPanelRegister");
-
-  if (toggleToRegister && toggleToLogin && loginPanel && regPanel) {
-    toggleToRegister.addEventListener("click", (e) => {
-      e.preventDefault();
-      loginPanel.style.display = "none";
-      regPanel.style.display = "block";
-    });
-
-    toggleToLogin.addEventListener("click", (e) => {
-      e.preventDefault();
-      regPanel.style.display = "none";
-      loginPanel.style.display = "block";
-    });
-  }
-}
-
-// Bootstrapping the application
-window.addEventListener("DOMContentLoaded", () => {
-  initStorage();
-  fetchMeals();
-  updateAuthUI();
-  updateCartBadge();
-  renderCart();
-  renderCatalog();
-  setupFilters();
-  setupAuthPanelToggles();
-
-  // Close modals when clicking backdrop
-  document.querySelectorAll(".modal-backdrop").forEach((backdrop) => {
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) {
-        closeModal(backdrop.id);
-      }
-    });
-  });
-
-  // Close drawer when clicking backdrop
-  const drawerBackdrop = document.getElementById("cartDrawerBackdrop");
-  if (drawerBackdrop) {
-    drawerBackdrop.addEventListener("click", (e) => {
-      if (e.target === drawerBackdrop) {
-        closeDrawer();
-      }
-    });
-  }
-
-  // Close mobile navigation drawer when clicking backdrop
-  const mobileMenuBackdrop = document.getElementById(
-    "mobileMenuDrawerBackdrop",
-  );
-  if (mobileMenuBackdrop) {
-    mobileMenuBackdrop.addEventListener("click", (e) => {
-      if (e.target === mobileMenuBackdrop) {
-        closeMobileMenu();
-      }
-    });
-  }
-});
-/* =========================================================
-   IOS + ANDROID MOBILE OPTIMIZATION
-========================================================= */
-
-// Prevent multiple rapid taps on mobile
-let tapDelay = false;
-
-function safeMobileTap(callback) {
-  if (tapDelay) return;
-
-  tapDelay = true;
-  callback();
-
-  setTimeout(() => {
-    tapDelay = false;
-  }, 250);
-}
-
-/* =========================================================
-   MOBILE NAVIGATION SYSTEM
-========================================================= */
-
-window.toggleMobileMenu = function () {
-  const navLinks = document.querySelector(".nav-links");
-
-  if (!navLinks) return;
-
-  navLinks.classList.toggle("active");
-
-  if (navLinks.classList.contains("active")) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "";
-  }
-};
-
-// Close mobile menu on navigation click
-document.querySelectorAll(".nav-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const navLinks = document.querySelector(".nav-links");
-
-    if (navLinks && navLinks.classList.contains("active")) {
-      navLinks.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-  });
-});
 
 /* =========================================================
    IMPROVED MODAL SYSTEM
@@ -1844,6 +1594,3 @@ window.addEventListener("load", () => {
 });
 
 console.log("✅ Randhoni Mobile Optimization Loaded");
-window.openModal = openModal;
-window.openDrawer = openDrawer;
-window.closeModal = closeModal;
