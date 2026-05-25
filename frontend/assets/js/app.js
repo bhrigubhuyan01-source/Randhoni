@@ -972,66 +972,141 @@ window.populateImagePresets = function () {
   });
 };
 
-window.addNewDish = function (event) {
+window.addNewDish = async function (event) {
   event.preventDefault();
 
-  const name = document.getElementById("addDishName").value.trim();
-  const price = parseInt(document.getElementById("addDishPrice").value);
-  const category = document.getElementById("addDishCategory").value;
-  const isVeg = document.getElementById("addDishVeg").value === "true";
-  const desc = document.getElementById("addDishDesc").value.trim();
-  const ingredients = document
-    .getElementById("addDishIngredients")
-    .value.trim();
-  const allergenNotes = document
-    .getElementById("addDishAllergens")
-    .value.trim();
-  const pickupTime = document.getElementById("addDishTime").value.trim();
-  const customUrl = document.getElementById("addDishCustomUrl").value.trim();
-  const presetUrl = document.getElementById("addDishImageUrl").value;
+  const name =
+    document.getElementById("addDishName").value.trim();
+
+  const price =
+    parseInt(
+      document.getElementById("addDishPrice").value
+    );
+
+  const category =
+    document.getElementById("addDishCategory").value;
+
+  const isVeg =
+    document.getElementById("addDishVeg").value === "true";
+
+  const desc =
+    document.getElementById("addDishDesc").value.trim();
+
+  const ingredients =
+    document
+      .getElementById("addDishIngredients")
+      .value.trim();
+
+  const allergenNotes =
+    document
+      .getElementById("addDishAllergens")
+      .value.trim();
+
+  const pickupTime =
+    document
+      .getElementById("addDishTime")
+      .value.trim();
+
+  const customUrl =
+    document
+      .getElementById("addDishCustomUrl")
+      .value.trim();
+
+  const presetUrl =
+    document.getElementById("addDishImageUrl").value;
 
   const image =
     customUrl ||
     presetUrl ||
     "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?q=80&w=800&auto=format&fit=crop";
 
-  if (!name || isNaN(price) || !desc || !pickupTime || !ingredients || !allergenNotes) {
+  if (
+    !name ||
+    isNaN(price) ||
+    !desc ||
+    !pickupTime
+  ) {
     showToast(
-      "Please fill out all required fields to list your dish.",
-      "warning",
+      "Please fill all required fields",
+      "warning"
     );
     return;
   }
 
-  const newMeal = {
-    id: `meal-${Date.now()}`,
-    name: name,
-    cook: state.currentUser.cookName,
-    cookPhone: state.currentUser.cookPhone,
-    cookLocation: state.currentUser.cookLocation,
-    price: price,
-    category: category,
-    isVeg: isVeg,
-    itemDescription: desc,
-    ingredients: ingredients,
-    allergenNotes: allergenNotes,
-    pickupTime: pickupTime,
-    rating: 5.0, // Initial perfect rating!
-    image: image,
-    isBestseller: false,
-    reviews: [],
-  };
+  try {
 
-  state.meals.push(newMeal);
-  saveMeals();
+    const response = await fetch(
+      "https://randhoni.onrender.com/api/meals",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-  // Clear form
-  document.getElementById("addDishForm").reset();
+        body: JSON.stringify({
+          chef_name:
+            state.currentUser.cookName,
 
-  // Redirect and refresh
-  showToast(`Successfully listed "${name}" in the marketplace!`, "success");
-  toggleCookPanel("dishes");
-  renderCatalog();
+          chef_phone:
+            state.currentUser.cookPhone,
+
+          chef_location:
+            state.currentUser.cookLocation,
+
+          title: name,
+
+          description: desc,
+
+          ingredients: ingredients,
+
+          allergen_notes:
+            allergenNotes,
+
+          price: price,
+
+          category: category,
+
+          is_veg: isVeg,
+
+          pickup_time:
+            pickupTime,
+
+          image_url: image,
+        }),
+      }
+    );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      showToast(
+        data.error ||
+        "Failed to upload dish",
+        "error"
+      );
+
+      return;
+    }
+
+    showToast(
+      "Dish uploaded successfully!",
+      "success"
+    );
+
+    document
+      .getElementById("addDishForm")
+      .reset();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showToast(
+      "Server connection failed",
+      "error"
+    );
+  }
 };
 
 //  Auth Operations
