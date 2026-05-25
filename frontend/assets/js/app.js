@@ -1,5 +1,6 @@
 // Randhoni Application State Engine
 // Backed by LocalStorage for robust, production-ready demonstration
+import { supabase } from "../../config/supabase.js";
 import ASSAM_LOCATIONS from "../../data/assamlocations.js";
 const PLATFORM_DOMAIN = "randhoni.in";
 const API_BASE_URL = "https://randhoni.onrender.com/api/auth";
@@ -1120,18 +1121,42 @@ window.addNewDish = async function (event) {
       .getElementById("addDishTime")
       .value.trim();
 
-  const customUrl =
-    document
-      .getElementById("addDishCustomUrl")
-      .value.trim();
+  const imageFile =
+document.getElementById("dishImageFile").files[0];
 
-  const presetUrl =
-    document.getElementById("addDishImageUrl").value;
+let uploadedImageUrl = "";
 
-  const image =
-    customUrl ||
-    presetUrl ||
-    "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?q=80&w=800&auto=format&fit=crop";
+if (imageFile) {
+
+  const fileName =
+    `${Date.now()}-${imageFile.name}`;
+
+  const { error: uploadError } =
+    await supabase.storage
+      .from("dish-images")
+      .upload(fileName, imageFile);
+
+  if (uploadError) {
+
+    console.error(uploadError);
+
+    showToast(
+      "Image upload failed",
+      "error"
+    );
+
+    return;
+  }
+
+  const {
+    data: publicUrlData
+  } = supabase.storage
+      .from("dish-images")
+      .getPublicUrl(fileName);
+
+  uploadedImageUrl =
+    publicUrlData.publicUrl;
+}
 
   if (
     !name ||
@@ -1140,10 +1165,10 @@ window.addNewDish = async function (event) {
     !pickupTime
   ) {
     showToast(
-      "Please fill all required fields",
-      "warning"
-    );
-    await fetchMeals();
+  "Dish uploaded successfully!",
+  "success"
+);
+await fetchMeals();
 
 renderCookDishes();
 
@@ -1189,7 +1214,7 @@ renderCatalog();
           pickup_time:
             pickupTime,
 
-          image_url: image,
+          image_url: uploadedImageUrl,
         }),
       }
     );

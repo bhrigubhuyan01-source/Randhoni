@@ -668,15 +668,19 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Choose Cover Image</label>
-                  <div id="imagePresetsWrapper" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:12px;">
-                    <!-- Rendered dynamically by app.js image presets -->
-                  </div>
-                  <input type="hidden" id="addDishImageUrl">
-                  
-                  <label class="form-label" for="addDishCustomUrl" style="font-size:0.8rem; margin-top:8px;">Or Paste Custom Image URL (Optional)</label>
-                  <input type="url" id="addDishCustomUrl" class="form-input" placeholder="https://images.unsplash.com/photo-..." style="padding:8px 12px; font-size:0.85rem;">
-                </div>
+
+  <label class="form-label">
+    Upload Dish Cover Photo
+  </label>
+
+  <input
+    type="file"
+    id="dishImageFile"
+    accept="image/*"
+    class="form-input"
+  >
+
+</div>
 
                 <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; font-size:1.05rem; font-weight:700;">List Dish in Store</button>
               </form>
