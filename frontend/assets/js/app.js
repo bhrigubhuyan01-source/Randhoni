@@ -1,19 +1,67 @@
 // Randhoni Application State Engine
 // Backed by LocalStorage for robust, production-ready demonstration
-import { createClient } from
-"https://esm.sh/@supabase/supabase-js";
+window.openMobileMenu = function () {
 
-const supabaseUrl =
-"https://mvxkgarnskqmiljigddr.supabase.co";
+  const backdrop =
+    document.getElementById(
+      "mobileMenuDrawerBackdrop"
+    );
 
-const supabaseKey =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12eGtnYXJuc2txbWlsamlnZGRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDMyODQsImV4cCI6MjA5NTE3OTI4NH0.7vf-a_rmc2QMqHv3IJ3pTxRb7bVay-MHHQ0btzAhyKs";
+  if (!backdrop) return;
 
-const supabase = createClient(
-  supabaseUrl,
-  supabaseKey
-);
-import ASSAM_LOCATIONS from "../../data/assamlocations.js";
+  backdrop.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+};
+
+window.closeMobileMenu = function () {
+
+  const backdrop =
+    document.getElementById(
+      "mobileMenuDrawerBackdrop"
+    );
+
+  if (!backdrop) return;
+
+  backdrop.classList.remove("active");
+
+  document.body.style.overflow = "";
+};
+
+const ASSAM_LOCATIONS = {
+
+  Guwahati: [
+    "Anil Nagar",
+    "Bhangagarh",
+    "Rajgarh",
+    "Zoo Road",
+    "Kalapahar",
+    "Maligaon",
+    "Six Mile",
+    "Dispur",
+    "Khanapara",
+    "Beltola"
+  ],
+
+  Jorhat: [
+    "Gar Ali",
+    "AT Road",
+    "Tarajan",
+    "Pulibor"
+  ],
+
+  Dibrugarh: [
+    "Chowkidinghee",
+    "Milan Nagar",
+    "Jhalukpara"
+  ],
+
+  Silchar: [
+    "Tarapur",
+    "Ambicapatty",
+    "Rangirkhari"
+  ]
+};
 const PLATFORM_DOMAIN = "randhoni.in";
 const API_BASE_URL = "https://randhoni.onrender.com/api/auth";
 const CURRENCY_SYMBOL = "\u20b9";
@@ -266,9 +314,13 @@ function renderCatalog() {
     const matchesSearch =
       !query ||
       meal.name.toLowerCase().includes(query) ||
-      meal.cookLocation.toLowerCase().includes(query) ||
+      (meal.cookLocation || "")
+  .toLowerCase()
+  .includes(query) ||
       meal.itemDescription.toLowerCase().includes(query) ||
-      meal.cook.toLowerCase().includes(query);
+      (meal.cook || "")
+  .toLowerCase()
+  .includes(query);
 
     return matchesFilter && matchesSearch;
   });
@@ -308,7 +360,8 @@ function renderCatalog() {
       <div class="meal-content">
         <div class="meal-cook-info">
           <i class="fa-solid fa-house-chimney-user"></i>
-          <span>${meal.cook} • ${meal.cookLocation.split(",")[0]}</span>
+          <span>${meal.cook} • ${(meal.cookLocation || "Unknown")
+  .split(",")[0]}</span>
         </div>
         <h3 class="meal-title">${meal.name}</h3>
         <p class="meal-desc">${meal.itemDescription}</p>
@@ -1219,16 +1272,16 @@ window.submitRegister = async function (event) {
   event.preventDefault();
 
   const name =
-    document.getElementById("registerName").value.trim();
+    document.getElementById("regCookName").value.trim();
 
   const email =
-    document.getElementById("registerEmail").value.trim();
+    document.getElementById("regEmail").value.trim();
 
   const password =
-    document.getElementById("registerPass").value;
+    document.getElementById("regPass").value;
 
   const phone =
-    document.getElementById("registerPhone").value.trim();
+    document.getElementById("regPhone").value.trim();
 
   const city =
     document.getElementById("registerCity").value;
@@ -1238,7 +1291,25 @@ window.submitRegister = async function (event) {
 
   const role = "chef";
 
-  const location = `${area}, ${city}`;
+  const customArea =
+  document.getElementById("customArea").value.trim();
+
+const finalArea =
+  area === "other"
+    ? customArea
+    : area;
+    if (!finalArea) {
+
+  showToast(
+    "Please enter your area",
+    "warning"
+  );
+
+  return;
+}
+
+const location =
+  `${finalArea}, ${city}`;
 
   try {
 
@@ -1256,6 +1327,15 @@ window.submitRegister = async function (event) {
       showToast(error.message, "error");
       return;
     }
+    if (!data.user) {
+
+  showToast(
+    "User creation failed",
+    "error"
+  );
+
+  return;
+}
 
     // Insert profile into users table
     const { error: profileError } =
@@ -1333,6 +1413,7 @@ window.openCookDashboard = function () {
 
   // Load and show dashboard
   toggleCookPanel("dishes");
+  closeMobileMenu();
   openModal("cookDashboardModal");
 };
 
@@ -1606,3 +1687,12 @@ window.addEventListener("load", () => {
 });
 
 console.log("✅ Randhoni Mobile Optimization Loaded");
+initStorage();
+
+updateAuthUI();
+
+fetchMeals();
+
+renderCart();
+
+updateCartBadge();

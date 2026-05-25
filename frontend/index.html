@@ -804,6 +804,22 @@
   </div>
 
   <!-- Core Javascript Logic -->
-  <script type="module" src="./assets/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const supabaseUrl =
+    "https://mvxkgarnskqmiljigddr.supabase.co";
+
+  const supabaseKey =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12eGtnYXJuc2txbWlsamlnZGRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDMyODQsImV4cCI6MjA5NTE3OTI4NH0.7vf-a_rmc2QMqHv3IJ3pTxRb7bVay-MHHQ0btzAhyKs";
+
+  const supabase =
+    window.supabase.createClient(
+      supabaseUrl,
+      supabaseKey
+    );
+</script>
+
+<script src="./assets/js/app.js"></script>
 </body>
 </html>
