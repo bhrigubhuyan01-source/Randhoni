@@ -1087,6 +1087,7 @@ window.populateImagePresets = function () {
 };
 
 window.addNewDish = async function (event) {
+
   event.preventDefault();
 
   const name =
@@ -1122,71 +1123,74 @@ window.addNewDish = async function (event) {
       .value.trim();
 
   const imageFile =
-document.getElementById("dishImageFile").files[0];
+    document.getElementById("dishImageFile").files[0];
 
-let uploadedImageUrl = "";
-
-if (imageFile) {
-
-  const fileName =
-    `${Date.now()}-${imageFile.name}`;
-
-  const { error: uploadError } =
-    await supabase.storage
-      .from("dish-images")
-      .upload(fileName, imageFile);
-
-  if (uploadError) {
-
-    console.error(uploadError);
-
-    showToast(
-      "Image upload failed",
-      "error"
-    );
-
-    return;
-  }
-
-  const {
-    data: publicUrlData
-  } = supabase.storage
-      .from("dish-images")
-      .getPublicUrl(fileName);
-
-  uploadedImageUrl =
-    publicUrlData.publicUrl;
-}
-
+  // Validation
   if (
     !name ||
     isNaN(price) ||
     !desc ||
     !pickupTime
   ) {
+
     showToast(
-  "Dish uploaded successfully!",
-  "success"
-);
-await fetchMeals();
+      "Please fill all required fields",
+      "warning"
+    );
 
-renderCookDishes();
-
-renderCatalog();
     return;
   }
 
+  let uploadedImageUrl = "";
+
   try {
 
+    // Upload image to Supabase Storage
+    if (imageFile) {
+
+      const fileName =
+        `${Date.now()}-${imageFile.name}`;
+
+      const { error: uploadError } =
+        await supabase.storage
+          .from("dish-images")
+          .upload(fileName, imageFile);
+
+      if (uploadError) {
+
+        console.error(uploadError);
+
+        showToast(
+          "Image upload failed",
+          "error"
+        );
+
+        return;
+      }
+
+      const {
+        data: publicUrlData
+      } = supabase.storage
+          .from("dish-images")
+          .getPublicUrl(fileName);
+
+      uploadedImageUrl =
+        publicUrlData.publicUrl;
+    }
+
+    // Send meal data to backend
     const response = await fetch(
       "https://randhoni.onrender.com/api/meals",
       {
         method: "POST",
+
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            "application/json",
         },
 
         body: JSON.stringify({
+
           chef_name:
             state.currentUser.cookName,
 
@@ -1214,7 +1218,8 @@ renderCatalog();
           pickup_time:
             pickupTime,
 
-          image_url: uploadedImageUrl,
+          image_url:
+            uploadedImageUrl,
         }),
       }
     );
@@ -1223,6 +1228,7 @@ renderCatalog();
       await response.json();
 
     if (!response.ok) {
+
       showToast(
         data.error ||
         "Failed to upload dish",
@@ -1232,14 +1238,22 @@ renderCatalog();
       return;
     }
 
+    // Refresh live meals
+    await fetchMeals();
+
+    renderCookDishes();
+
+    renderCatalog();
+
+    // Reset form
+    document
+      .getElementById("addDishForm")
+      .reset();
+
     showToast(
       "Dish uploaded successfully!",
       "success"
     );
-
-    document
-      .getElementById("addDishForm")
-      .reset();
 
   } catch (error) {
 
@@ -1249,62 +1263,6 @@ renderCatalog();
       "Server connection failed",
       "error"
     );
-  }
-};
-
-//  Auth Operations
-window.submitRegister = async function (event) {
-  event.preventDefault();
-
-  const cookName = document.getElementById("regCookName").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const phone =
-  document.getElementById("regPhone").value.trim();
-
-const selectedArea =
-  registerArea.value === "other"
-    ? document
-        .getElementById("customArea")
-        .value.trim()
-    : registerArea.value;
-
-const location =
-  `${registerCity.value}, ${selectedArea}`;
-
-const password =
-  document.getElementById("regPass").value;
-  try {
-    const response = await fetch(`${API_BASE_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-        body: JSON.stringify({
-  name: cookName,
-  email,
-  password,
-  phone,
-  location,
-  role: "chef",
-}),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      showToast(data.error || "Registration failed", "error");
-      return;
-    }
-
-    showToast("Registration successful! Please login.", "success");
-
-    // Switch to login panel
-    document.getElementById("authPanelRegister").style.display = "none";
-    document.getElementById("authPanelLogin").style.display = "block";
-
-  } catch (error) {
-    showToast("Server connection failed", "error");
-    console.error(error);
   }
 };
 
